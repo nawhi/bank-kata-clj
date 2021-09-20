@@ -45,10 +45,10 @@
           "| 08/09/2021 |         | 1200.00 | 1000.00 |"
           (stringify-tx {:value -1200 :date (date "2021-09-08")} 1000))))
 
-  ;(testing "Statements"
-  ;  (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
-  ;                     "| 07/08/2021 |  500.00 |         |  500.00 |")
-  ;         (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
+  (testing "Statements"
+    (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
+                       "| 01/08/2021 |  500.00 |         |  500.00 |")
+           (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
 
 
   ;(testing "TODO works with no rounding errors")

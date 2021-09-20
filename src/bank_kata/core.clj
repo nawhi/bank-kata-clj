@@ -30,8 +30,8 @@
 
 
 (defn stringify-rows [{:keys [transactions]}]
-  (list
-    (stringify-tx (first transactions) 0)))
+  (let [tx (first transactions)]
+    (list (stringify-tx tx (:value tx)))))
 
 (defn statement [account]
   (str/join "\n" (concat [HEADER] (stringify-rows account))))
