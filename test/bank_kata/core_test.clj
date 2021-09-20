@@ -48,7 +48,12 @@
   (testing "Statements"
     (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
                        "| 01/08/2021 |  500.00 |         |  500.00 |")
-           (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
+           (statement {:transactions [{:value 500 :date (date "2021-08-01")}]})))
+    (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
+                       "| 03/08/2021 |         |  125.00 |  375.00 |"
+                       "| 01/08/2021 |  500.00 |         |  500.00 |")
+           (statement {:transactions [{:value 500 :date (date "2021-08-01")}
+                                      {:value -125 :date (date "2021-08-03")}]}))))
 
 
   ;(testing "TODO works with no rounding errors")

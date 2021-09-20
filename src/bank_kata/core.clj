@@ -7,11 +7,14 @@
   [] (atom {:transactions []}))
 
 (defn deposit! [account amount date]
+  "Deposits the given amount of money into the given account on the given date"
   (swap! account (fn [account]
                    (update account :transactions
                            #(conj % {:value amount :date date})))))
 
-(defn withdraw! [account amount date] (deposit! account (- amount) date))
+(defn withdraw! [account amount date]
+  "Withdraws the given amount of money from the given account on the given date"
+  (deposit! account (- amount) date))
 
 (def HEADER "| Date       | Credit  | Debit   | Balance |")
 
@@ -30,9 +33,19 @@
 
 
 (defn stringify-rows [{:keys [transactions]}]
-  (let [tx (first transactions)]
-    (list (stringify-tx tx (:value tx)))))
+  (loop [rows transactions
+         result []
+         old-balance 0]
+    (if (empty? rows)
+      result
+      (let [{:keys [value] :as tx} (first rows)
+            new-balance (+ old-balance value)]
+        (recur
+          (drop 1 rows)
+          (conj result (stringify-tx tx new-balance))
+          new-balance)))))
 
 (defn statement [account]
-  (str/join "\n" (concat [HEADER] (stringify-rows account))))
+  "Returns a printable version of the statement for the given bank account"
+  (str/join "\n" (concat [HEADER] (reverse (stringify-rows account)))))
 
