@@ -16,7 +16,7 @@
 (def HEADER "| Date       | Credit  | Debit   | Balance |")
 
 (defn format-date [date] (.format date (DateTimeFormatter/ofPattern "dd/MM/yyyy")))
-(defn format-value [value] (format "%-7s" (format "%4.2f" (double value))))
+(defn format-value [value] (format "%7s" (format "%4.2f" (double value))))
 
 (def EMPTY "       ")
 
@@ -30,7 +30,8 @@
 
 
 (defn stringify-rows [{:keys [transactions]}]
-  "TODO")
+  (list
+    (stringify-tx (first transactions) 0)))
 
 (defn statement [account]
   (str/join "\n" (concat [HEADER] (stringify-rows account))))

@@ -15,9 +15,9 @@
   ;        (deposit! account 2000 (date "2021-08-03"))
   ;        (withdraw! account 500 (date "2021-08-07")))
   ;    (let [expected (big-string "| Date       | Credit  | Debit   | Balance |"
-  ;                               "| 07/08/2021 |         | 500.00  | 2500.00 |"
-  ;                               "| 03/08/2021 | 2000.00 | 500.00  | 2500.00 |"
-  ;                               "| 01/08/2021 | 1000.00 | 500.00  | 2500.00 |")]
+  ;                               "| 07/08/2021 |         |  500.00 | 2500.00 |"
+  ;                               "| 03/08/2021 | 2000.00 |  500.00 | 2500.00 |"
+  ;                               "| 01/08/2021 | 1000.00 |  500.00 | 2500.00 |")]
   ;      (is (= expected (statement account))))))
 
   (testing "Deposits"
@@ -39,7 +39,7 @@
 
   (testing "stringify-tx"
     (is (=
-          "| 07/08/2021 | 500.00  |         | 1250.00 |"
+          "| 07/08/2021 |  500.00 |         | 1250.00 |"
           (stringify-tx {:value 500 :date (date "2021-08-07")} 1250)))
     (is (=
           "| 08/09/2021 |         | 1200.00 | 1000.00 |"
@@ -47,7 +47,7 @@
 
   ;(testing "Statements"
   ;  (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
-  ;                     "| 07/08/2021 | 500.00  |         |  500.00 |")
+  ;                     "| 07/08/2021 |  500.00 |         |  500.00 |")
   ;         (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
 
 
