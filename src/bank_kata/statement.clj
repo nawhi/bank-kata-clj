@@ -19,7 +19,7 @@
 
 (defn stringify-rows [account]
   (loop [rows account
-         result []
+         result ()
          old-balance 0]
     (if (empty? rows)
       result
@@ -32,4 +32,4 @@
 
 (defn statement [account]
   "Returns a printable version of the statement for the given bank account"
-  (str/join "\n" (concat [HEADER] (reverse (stringify-rows @account)))))
+  (str/join "\n" (concat [HEADER] (stringify-rows @account))))
