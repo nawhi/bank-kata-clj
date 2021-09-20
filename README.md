@@ -1,14 +1,14 @@
-# bank-kata
+# Bank Kata in Clojure
 
-A Clojure library designed to ... well, that part is up to you.
+An implementation of the Bank Kata.
 
-## Usage
+Description: https://kata-log.rocks/banking-kata
 
-FIXME
+Inspired by [Sandro Mancuso](https://github.com/sandromancuso/Bank-kata)
 
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2021 Nick White
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
