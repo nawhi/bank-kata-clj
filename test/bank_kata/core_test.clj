@@ -1,8 +1,7 @@
 (ns bank-kata.core-test
   (:require [clojure.test :refer :all]
             [bank-kata.core :refer :all])
-  (:import (java.time LocalDate)
-           (java.time.format DateTimeFormatter)))
+  (:import (java.time LocalDate)))
 
 (defn date [iso] (LocalDate/parse iso))
 
