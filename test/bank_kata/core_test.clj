@@ -1,6 +1,7 @@
 (ns bank-kata.core-test
   (:require [clojure.test :refer :all]
-            [bank-kata.core :refer :all])
+            [bank-kata.core :refer :all]
+            [bank-kata.statement :refer :all])
   (:import (java.time LocalDate)))
 
 (defn date [iso] (LocalDate/parse iso))
@@ -33,26 +34,6 @@
           (let [expected [{:value 1000 :date (date "2021-08-01")}
                           {:value -500 :date (date "2021-08-02")}]]
             (is (= expected @account))))))
-
-  (testing "stringify-tx"
-    (is (= "| 07/08/2021 |  500.00 |         | 1250.00 |"
-           (stringify-tx {:value 500 :date (date "2021-08-07")} 1250)))
-
-    (is (= "| 08/09/2021 |         | 1200.00 | 1000.00 |"
-           (stringify-tx {:value -1200 :date (date "2021-09-08")} 1000))))
-
-  (testing "Statements"
-    (let [account (atom [{:value 500 :date (date "2021-08-01")}])]
-      (is (= (str "| Date       | Credit  | Debit   | Balance |\n"
-                  "| 01/08/2021 |  500.00 |         |  500.00 |")
-             (statement account))))
-
-    (let [account (atom [{:value 500 :date (date "2021-08-01")}
-                         {:value -125 :date (date "2021-08-03")}])]
-      (is (= (str "| Date       | Credit  | Debit   | Balance |\n"
-                  "| 03/08/2021 |         |  125.00 |  375.00 |\n"
-                  "| 01/08/2021 |  500.00 |         |  500.00 |")
-             (statement account)))))
 
   (testing "Handles floating points"
     (let [account (create-account)]
