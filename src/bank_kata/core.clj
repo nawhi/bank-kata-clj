@@ -6,30 +6,29 @@
   "Create a new Bank Account"
   [] (atom {:transactions []}))
 
-(defn deposit! [account amount date]
+(defn deposit! [account value date]
   "Deposits the given amount of money into the given account on the given date"
   (swap! account (fn [account]
                    (update account :transactions
-                           #(conj % {:value amount :date date})))))
+                           #(conj % {:value value :date date})))))
 
-(defn withdraw! [account amount date]
+(defn withdraw! [account value date]
   "Withdraws the given amount of money from the given account on the given date"
-  (deposit! account (- amount) date))
+  (deposit! account (- value) date))
 
 (def HEADER "| Date       | Credit  | Debit   | Balance |")
+(def EMPTY-CELL "       ")
 
 (defn format-date [date] (.format date (DateTimeFormatter/ofPattern "dd/MM/yyyy")))
-(defn format-value [value] (format "%7s" (format "%4.2f" (double value))))
 
-(def EMPTY "       ")
+(defn format-value [value] (format "%7s" (format "%4.2f" (double value))))
 
 (defn stringify-tx [{:keys [value date]} balance]
   (let [
-        credit (if (> value 0) (format-value value) EMPTY)
-        debit (if (< value 0) (format-value (- value)) EMPTY)
+        credit (if (> value 0) (format-value value) EMPTY-CELL)
+        debit (if (< value 0) (format-value (- value)) EMPTY-CELL)
         date (format-date date)]
-    (str "| " date " | " credit " | " debit " | " (format-value balance) " |"))
-  )
+    (str "| " date " | " credit " | " debit " | " (format-value balance) " |")))
 
 
 (defn stringify-rows [{:keys [transactions]}]
@@ -47,5 +46,5 @@
 
 (defn statement [account]
   "Returns a printable version of the statement for the given bank account"
-  (str/join "\n" (concat [HEADER] (reverse (stringify-rows account)))))
+  (str/join "\n" (concat [HEADER] (reverse (stringify-rows @account)))))
 
