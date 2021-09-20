@@ -4,13 +4,11 @@
 
 (defn create-account
   "Create a new Bank Account"
-  [] (atom {:transactions []}))
+  [] (atom []))
 
 (defn deposit! [account value date]
   "Deposits the given amount of money into the given account on the given date"
-  (swap! account (fn [account]
-                   (update account :transactions
-                           #(conj % {:value value :date date})))))
+  (swap! account #(conj % {:value value :date date})))
 
 (defn withdraw! [account value date]
   "Withdraws the given amount of money from the given account on the given date"
@@ -31,8 +29,8 @@
     (str "| " date " | " credit " | " debit " | " (format-value balance) " |")))
 
 
-(defn stringify-rows [{:keys [transactions]}]
-  (loop [rows transactions
+(defn stringify-rows [account]
+  (loop [rows account
          result []
          old-balance 0]
     (if (empty? rows)

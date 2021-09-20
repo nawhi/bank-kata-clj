@@ -22,18 +22,17 @@
   (testing "Deposits"
     (let [account (create-account)]
       (do (deposit! account 100 (date "2021-08-01"))
-          (is (= {:transactions [{:value 100 :date (date "2021-08-01")}]} @account))
+          (is (= [{:value 100 :date (date "2021-08-01")}] @account))
           (do (deposit! account 200 (date "2021-08-02"))
-              (let [expected {:transactions [{:value 100 :date (date "2021-08-01")}
-                                             {:value 200 :date (date "2021-08-02")}]}]
-                (is (= expected @account)))))))
+              (is (= [{:value 100 :date (date "2021-08-01")}
+                      {:value 200 :date (date "2021-08-02")}] @account))))))
 
   (testing "Withdrawals"
     (let [account (create-account)]
       (do (deposit! account 1000 (date "2021-08-01"))
           (withdraw! account 500 (date "2021-08-02"))
-          (let [expected {:transactions [{:value 1000 :date (date "2021-08-01")}
-                                         {:value -500 :date (date "2021-08-02")}]}]
+          (let [expected [{:value 1000 :date (date "2021-08-01")}
+                          {:value -500 :date (date "2021-08-02")}]]
             (is (= expected @account))))))
 
   (testing "stringify-tx"
@@ -44,13 +43,13 @@
            (stringify-tx {:value -1200 :date (date "2021-09-08")} 1000))))
 
   (testing "Statements"
-    (let [account (atom {:transactions [{:value 500 :date (date "2021-08-01")}]})]
+    (let [account (atom [{:value 500 :date (date "2021-08-01")}])]
       (is (= (str "| Date       | Credit  | Debit   | Balance |\n"
                   "| 01/08/2021 |  500.00 |         |  500.00 |")
              (statement account))))
 
-    (let [account (atom {:transactions [{:value 500 :date (date "2021-08-01")}
-                                        {:value -125 :date (date "2021-08-03")}]})]
+    (let [account (atom [{:value 500 :date (date "2021-08-01")}
+                         {:value -125 :date (date "2021-08-03")}])]
       (is (= (str "| Date       | Credit  | Debit   | Balance |\n"
                   "| 03/08/2021 |         |  125.00 |  375.00 |\n"
                   "| 01/08/2021 |  500.00 |         |  500.00 |")
@@ -60,8 +59,8 @@
     (let [account (create-account)]
       (do (deposit! account 123.33 (date "2021-08-01"))
           (withdraw! account 123.33 (date "2021-08-02"))
-          (let [expected {:transactions [{:value 123.33 :date (date "2021-08-01")}
-                                         {:value -123.33 :date (date "2021-08-02")}]}]
+          (let [expected [{:value 123.33 :date (date "2021-08-01")}
+                                         {:value -123.33 :date (date "2021-08-02")}]]
             (is (= expected @account)))))))
 
 
