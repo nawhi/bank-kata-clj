@@ -36,17 +36,19 @@
           (let [expected {:transactions [{:value 1000 :date (date "2021-08-01")}
                                          {:value -500 :date (date "2021-08-02")}]}]
             (is (= expected @account))))))
+
   (testing "stringify-tx"
     (is (=
           "| 07/08/2021 | 500.00  |         | 1250.00 |"
-          (stringify-tx {:amount 500 :date (date "2021-08-07")} 1250)))
+          (stringify-tx {:value 500 :date (date "2021-08-07")} 1250)))
     (is (=
           "| 08/09/2021 |         | 1200.00 | 1000.00 |"
-          (stringify-tx {:amount -1200 :date (date "2021-09-08")} 1000))))
+          (stringify-tx {:value -1200 :date (date "2021-09-08")} 1000))))
+
   ;(testing "Statements"
-  ;(is (= (big-string "| Date       | Credit  | Debit   | Balance |"
-  ;                   "| 07/08/2021 | 500.00  |         |  500.00 |")
-  ;       (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
+  ;  (is (= (big-string "| Date       | Credit  | Debit   | Balance |"
+  ;                     "| 07/08/2021 | 500.00  |         |  500.00 |")
+  ;         (statement {:transactions [{:value 500 :date (date "2021-08-01")}]}))))
 
 
   ;(testing "TODO works with no rounding errors")
